@@ -34,6 +34,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
+import android.os.UserHandle;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 
 public class Utils {
     private static String cachedRomID = null;
@@ -78,11 +82,19 @@ public class Utils {
     }
 
     public static String getRcvrySdPath() {
+
+        // Emulated external storage moved to user-specific paths in 4.2
+        String userPath = Environment.isExternalStorageEmulated() ? ("/" + UserHandle.myUserId()) : "";
+
     	if (cachedRcvrySdPath == null) {
     		cachedRcvrySdPath = getprop(Config.OTA_SD_PATH_RECOVERY_PROP);
     		if (cachedRcvrySdPath == null) {
-    			cachedRcvrySdPath = "sdcard";
-    		}
+                if (Environment.isExternalStorageEmulated()) {
+                    cachedRcvrySdPath = "data/media" + userPath;
+                } else {
+                    cachedRcvrySdPath = "sdcard";
+                }
+            }
     	}
     	return cachedRcvrySdPath;
     }
