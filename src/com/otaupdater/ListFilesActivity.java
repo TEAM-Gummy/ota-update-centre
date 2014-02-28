@@ -276,20 +276,26 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
 
                                 os.writeBytes("sync\n");
 
-                                String rebootCmd = Utils.getRebootCmd();
-                                if (!rebootCmd.equals("$$NULL$$")) {
-                                    if (rebootCmd.endsWith(".sh")) {
-                                        os.writeBytes("sh " + rebootCmd + "\n");
-                                    } else {
-                                        os.writeBytes(rebootCmd + "\n");
+                                if (Utils.getMotoOmapReboot()) {
+                                    os.writeBytes("echo '1' >> /data/.recovery_mode\n");
+                                    os.writeBytes("sync\n");
+                                    os.writeBytes("reboot\n");
+                                } else {
+                                    String rebootCmd = Utils.getRebootCmd();
+                                    if (!rebootCmd.equals("$$NULL$$")) {
+                                        if (rebootCmd.endsWith(".sh")) {
+                                            os.writeBytes("sh " + rebootCmd + "\n");
+                                        } else {
+                                            os.writeBytes(rebootCmd + "\n");
+                                        }
                                     }
-                                }
 
-                                os.writeBytes("sync\n");
-                                os.writeBytes("exit\n");
-                                os.flush();
-                                p.waitFor();
-                                ((PowerManager) ctx.getSystemService(POWER_SERVICE)).reboot("recovery");
+                                    os.writeBytes("sync\n");
+                                    os.writeBytes("exit\n");
+                                    os.flush();
+                                    p.waitFor();
+                                    ((PowerManager) ctx.getSystemService(POWER_SERVICE)).reboot("recovery");
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -43,6 +43,7 @@ public class Utils {
     private static String cachedRcvrySdPath = null;
     private static String cachedRebootCmd = null;
     private static String cachedNoflash = null;
+    private static String cachedMotoOmapReboot = null;
     
     public static boolean marketAvailable(Context ctx) {
         PackageManager pm = ctx.getPackageManager();
@@ -120,6 +121,16 @@ public class Utils {
             cachedOtaVer = getprop(Config.OTA_VER_PROP);
         }
         return cachedOtaVer;
+    }
+
+    public static boolean getMotoOmapReboot() {
+        if (cachedMotoOmapReboot == null) {
+            cachedMotoOmapReboot = getprop(Config.OTA_MOTOOMAP_REBOOT);
+            if (cachedMotoOmapReboot == null) {
+                cachedMotoOmapReboot = "0";
+            }
+        }
+        return cachedMotoOmapReboot.equals("1") || cachedMotoOmapReboot.equalsIgnoreCase("true");
     }
 
     private static String getprop(String name) {
