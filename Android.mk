@@ -12,8 +12,9 @@ LOCAL_PRIVILEGED_MODULE := true
 
 include $(BUILD_PACKAGE)
 
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := libs/gcm.jar
+##################################################
+include $(CLEAR_VARS)
+
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := gcm:libs/gcm.jar
 
 include $(BUILD_MULTI_PREBUILT)
-##
-
