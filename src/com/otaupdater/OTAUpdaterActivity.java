@@ -160,7 +160,7 @@ public class OTAUpdaterActivity extends PreferenceActivity {
             }
 
             final Preference device = findPreference("device_view");
-            device.setSummary(android.os.Build.DEVICE.toLowerCase());
+            device.setSummary(android.os.Build.PRODUCT.toLowerCase());
             final Preference rom = findPreference("rom_view");
             rom.setSummary(android.os.Build.DISPLAY);
             final Preference version = findPreference("version_view");

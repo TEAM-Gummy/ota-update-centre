@@ -91,7 +91,7 @@ public class Config {
             curVersion = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode;
         } catch (NameNotFoundException e) {
         }
-        curDevice = android.os.Build.DEVICE.toLowerCase();
+        curDevice = android.os.Build.PRODUCT.toLowerCase();
         curRomID = Utils.getRomID();
 
         if (!upToDate()) {
